@@ -1,7 +1,6 @@
 package com.samucatezu.ecommerceapi.controller;
 
-import com.samucatezu.ecommerceapi.Model.Product;
-import com.samucatezu.ecommerceapi.dto.ProductDto;
+import com.samucatezu.ecommerceapi.dto.product.ProductDto;
 import com.samucatezu.ecommerceapi.exceptions.ApiResponse;
 import com.samucatezu.ecommerceapi.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-public class productControlller {
-    @Autowired
-    ProductService productService;
+public class ProductControlller{
+    private final ProductService productService;
+
+
+    public ProductControlller(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping
     public ResponseEntity<List<ProductDto>> getProducts(){
@@ -24,10 +27,24 @@ public class productControlller {
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<ProductDto> addProduct(@RequestBody @Valid ProductDto productDto) {
-        ProductDto body = productService.addProduct(productDto);
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductDto> getProductById(@PathVariable("productId") Long productID) {
+
+    
+        ProductDto body = productService.getProductById(productID);
+
         return new ResponseEntity<>(body, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addProduct(@RequestBody @Valid ProductDto productDto) {
+        try{
+            ProductDto body = productService.addProduct(productDto);
+            return new ResponseEntity<>(body, HttpStatus.ACCEPTED);
+        } catch(Exception e){
+            ApiResponse reponse = new ApiResponse(false, "Verifique os dados enviados");
+            return new ResponseEntity<>(reponse, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/update/{productID}")

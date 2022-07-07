@@ -1,8 +1,6 @@
 package com.samucatezu.ecommerceapi.Model;
 
 import lombok.*;
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

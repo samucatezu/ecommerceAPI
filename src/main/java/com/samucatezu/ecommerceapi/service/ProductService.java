@@ -1,8 +1,8 @@
 package com.samucatezu.ecommerceapi.service;
 
 import com.samucatezu.ecommerceapi.Model.Product;
-import com.samucatezu.ecommerceapi.dto.ProductDto;
-import com.samucatezu.ecommerceapi.dto.ProductMapper;
+import com.samucatezu.ecommerceapi.dto.product.ProductDto;
+import com.samucatezu.ecommerceapi.dto.product.ProductMapper;
 import com.samucatezu.ecommerceapi.exceptions.ProductNotExistException;
 import com.samucatezu.ecommerceapi.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +40,9 @@ public class ProductService {
         return ProductMapper.getDtoFromProduct(product);
     }
 
-    public Product getProductById(Long productId) throws ProductNotExistException {
-        return repository.findById(productId).orElseThrow(() -> new ProductNotExistException(productId));
+    public ProductDto getProductById(Long productId) throws ProductNotExistException {
+        Product product = repository.findById(productId).orElseThrow(() -> new ProductNotExistException(productId));
+        return ProductMapper.getDtoFromProduct(product);
     }
 
     public void deleteProduct(Long productID) {

@@ -1,4 +1,4 @@
-package com.samucatezu.ecommerceapi.dto;
+package com.samucatezu.ecommerceapi.dto.product;
 
 import com.samucatezu.ecommerceapi.Model.Product;
 
