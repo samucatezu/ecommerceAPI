@@ -2,8 +2,10 @@ package com.samucatezu.ecommerceapi.Model;
 
 import lombok.*;
 import net.bytebuddy.dynamic.loading.InjectionClassLoader;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -18,13 +20,13 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotBlank
     private String name;
 
     @NotNull
     private double price;
 
-    @NotNull
+    @NotBlank
     private String description;
 
     public Product(String name, double price, String description) {

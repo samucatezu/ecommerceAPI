@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -28,18 +27,24 @@ public class ProductService {
         return productDtos;
     }
 
-    public void addProduct(ProductDto productDto) {
+    public ProductDto addProduct(ProductDto productDto) {
         Product product = ProductMapper.getProductFromDto(productDto);
-        repository.save(product);
+        product = repository.save(product);
+        return ProductMapper.getDtoFromProduct(product);
     }
 
-    public void updateProduct(Long productID, ProductDto productDto) {
+    public ProductDto updateProduct(Long productID, ProductDto productDto) {
         Product product = ProductMapper.getProductFromDto(productDto);
         product.setId(productID);
-        repository.save(product);
+        product = repository.save(product);
+        return ProductMapper.getDtoFromProduct(product);
     }
 
     public Product getProductById(Long productId) throws ProductNotExistException {
         return repository.findById(productId).orElseThrow(() -> new ProductNotExistException(productId));
+    }
+
+    public void deleteProduct(Long productID) {
+        repository.deleteById(productID);
     }
 }
